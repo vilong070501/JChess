@@ -4,7 +4,6 @@ import com.engine.Alliance;
 import com.engine.board.Board;
 import com.engine.board.BoardUtils;
 import com.engine.board.move.Move;
-import com.engine.board.tile.Tile;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class King extends Piece {
     private final static int[] CANDIDATE_MOVE_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
 
     public King(int position, Alliance alliance) {
-        super(position, alliance);
+        super(PieceType.KING, position, alliance);
     }
 
     @Override
