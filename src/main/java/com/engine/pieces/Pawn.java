@@ -73,4 +73,9 @@ public class Pawn extends Piece {
                 (BoardUtils.SECOND_ROW[this.position] && this.alliance.isBlack()) ||
                 (BoardUtils.SEVENTH_ROW[this.position] && this.alliance.isWhite());
     }
+
+    @Override
+    public String toString() {
+        return PieceType.PAWN.toString();
+    }
 }

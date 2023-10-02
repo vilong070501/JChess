@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Bishop extends Piece {
+public class Queen extends Piece {
 
-    private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -7, 7, 9};
+    private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
 
-    public Bishop(int position, Alliance alliance) {
+    public Queen(int position, Alliance alliance) {
         super(position, alliance);
     }
 
@@ -28,12 +28,12 @@ public class Bishop extends Piece {
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
 
                 if (isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
-                        isLastColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
+                    isLastColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
                     break;
                 }
-                
+
                 candidateDestinationCoordinate += candidateCoordinateOffset;
-                
+
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
 
                     buildMove(board, legalMoves, candidateDestinationCoordinate);
@@ -46,10 +46,15 @@ public class Bishop extends Piece {
     }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7);
+        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == -1 || candidateOffset == 7);
     }
 
     private static boolean isLastColumnExclusion(final int currentPosition, final int candidateOffset) {
-        return BoardUtils.LAST_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 9);
+        return BoardUtils.LAST_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 1|| candidateOffset == 9);
+    }
+
+    @Override
+    public String toString() {
+        return PieceType.QUEEN.toString();
     }
 }

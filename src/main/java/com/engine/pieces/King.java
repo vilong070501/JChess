@@ -50,4 +50,9 @@ public class King extends Piece {
         return BoardUtils.LAST_COLUMN[currentPosition] &&
                 (candidateOffset == -7 || candidateOffset == 1 || candidateOffset == 9);
     }
+
+    @Override
+    public String toString() {
+        return PieceType.KING.toString();
+    }
 }

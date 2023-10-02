@@ -32,6 +32,10 @@ public abstract class Piece {
         return this.position;
     }
 
+    public boolean isFirstMove() {
+        return isFirstMove;
+    }
+
     protected void buildMove(Board board, List<Move> legalMoves, int candidateDestinationCoordinate) {
         final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
         if (!candidateDestinationTile.isOccupied()) {
@@ -40,7 +44,7 @@ public abstract class Piece {
             final Piece pieceAtDestination = candidateDestinationTile.getPiece();
             final Alliance pieceAlliance = pieceAtDestination.getAlliance();
 
-            /* Is the tile is occupied by an enemy, create an attacking move  */
+            /* If the tile is occupied by an enemy, create an attacking move  */
             if (this.alliance != pieceAlliance) {
                 legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
             }
@@ -49,5 +53,22 @@ public abstract class Piece {
 
     public enum PieceType {
 
+        PAWN("P"),
+        ROOK("R"),
+        KNIGHT("N"),
+        BISHOP("B"),
+        QUEEN("Q"),
+        KING("K");
+
+        private final String pieceName;
+
+        PieceType(final String pieceName) {
+            this.pieceName = pieceName;
+        }
+
+        @Override
+        public String toString() {
+            return this.pieceName;
+        }
     }
 }

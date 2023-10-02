@@ -6,10 +6,7 @@ import com.engine.board.tile.Tile;
 import com.engine.pieces.*;
 import com.google.common.collect.ImmutableList;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Board {
 
@@ -32,7 +29,7 @@ public class Board {
         for (int i = 0; i < BoardUtils.NUMBER_OF_TILES; i++) {
             final String tileText = this.gameBoard.get(i).toString();
             builder.append(String.format("%3s", tileText));
-            if ((i + 1) % BoardUtils.NUMBER_OF_TILES == 0) {
+            if ((i + 1) % BoardUtils.NUMBER_OF_TILES_PER_ROW == 0) {
                 builder.append("\n");
             }
         }
@@ -41,7 +38,7 @@ public class Board {
 
 
     public Tile getTile(final int tileCoordinate) {
-        return null;
+        return this.gameBoard.get(tileCoordinate);
     }
 
     private static List<Tile> createGameBoard(final BoardBuilder builder) {
@@ -126,6 +123,7 @@ public class Board {
         Alliance nextMoveMaker;
 
         public BoardBuilder() {
+            this.boardConfig = new HashMap<>();
         }
 
         public BoardBuilder setPiece(final Piece piece) {
