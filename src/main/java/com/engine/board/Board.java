@@ -5,6 +5,7 @@ import com.engine.board.move.Move;
 import com.engine.board.tile.Tile;
 import com.engine.pieces.*;
 import com.engine.player.BlackPlayer;
+import com.engine.player.Player;
 import com.engine.player.WhitePlayer;
 import com.google.common.collect.ImmutableList;
 
@@ -19,7 +20,9 @@ public class Board {
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
 
-    private Board(BoardBuilder builder) {
+    private final Player currentPlayer;
+
+    private Board(final BoardBuilder builder) {
         this.gameBoard = createGameBoard(builder);
         this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
         this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
@@ -29,6 +32,7 @@ public class Board {
 
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
 
     @Override
@@ -50,6 +54,10 @@ public class Board {
 
     public BlackPlayer getBlackPlayer() {
         return blackPlayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public Tile getTile(final int tileCoordinate) {

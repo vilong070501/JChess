@@ -8,15 +8,15 @@ import com.engine.pieces.Piece;
 import java.util.Collection;
 
 public class BlackPlayer extends Player {
-    public BlackPlayer(Board board,
-                       Collection<Move> whiteStandardLegalMoves,
-                       Collection<Move> blackStandardLegalMoves)
+    public BlackPlayer(final Board board,
+                       final Collection<Move> whiteStandardLegalMoves,
+                       final Collection<Move> blackStandardLegalMoves)
     {
         super(board, blackStandardLegalMoves, whiteStandardLegalMoves);
     }
 
     @Override
-    protected Collection<Piece> getActivePieces() {
+    public Collection<Piece> getActivePieces() {
         return this.board.getBlackPieces();
     }
 
