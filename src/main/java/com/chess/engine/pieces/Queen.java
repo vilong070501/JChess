@@ -51,11 +51,11 @@ public class Queen extends Piece {
     }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == -1 || candidateOffset == 7);
+        return BoardUtils.FIRST_COLUMN.get(currentPosition) && (candidateOffset == -9 || candidateOffset == -1 || candidateOffset == 7);
     }
 
     private static boolean isLastColumnExclusion(final int currentPosition, final int candidateOffset) {
-        return BoardUtils.LAST_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 1|| candidateOffset == 9);
+        return BoardUtils.LAST_COLUMN.get(currentPosition) && (candidateOffset == -7 || candidateOffset == 1|| candidateOffset == 9);
     }
 
     @Override
