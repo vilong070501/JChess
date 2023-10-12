@@ -37,3 +37,5 @@ bin/
 
 ### Maven ###
 JChess.iml
+*.class
+*.lst

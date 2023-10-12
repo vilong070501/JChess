@@ -28,6 +28,23 @@ public abstract class CastleMove extends Move {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + this.castleRook.hashCode();
+        result = prime * result + this.castleRookDestination;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        return this == object ||
+              (object instanceof CastleMove &&
+               super.equals(object) &&
+               this.castleRook.equals(((CastleMove) object).getCastleRook()));
+    }
+
+    @Override
     public boolean isCastlingMove() {
         return true;
     }
@@ -45,8 +62,9 @@ public abstract class CastleMove extends Move {
         }
         builder.setPiece(this.movedPiece.movePiece(this));
         // TODO: set first move to false
-        builder.setPiece(new Rook(this.castleRook.getPiecePosition(), this.castleRook.getAlliance()));
-        builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
+        builder.setPiece(new Rook(this.castleRook.getPiecePosition(), this.castleRook.getAlliance()))
+               .setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance())
+                .setTransitionMove(this);
         return builder.build();
     }
 
@@ -58,6 +76,14 @@ public abstract class CastleMove extends Move {
                                   final int castleRookStart,
                                   final int castleRookDestination) {
             super(board, movedPiece, destinationCoordinate, castleRook, castleRookStart, castleRookDestination);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return this == object ||
+                    (object instanceof KingSideCastleMove &&
+                            super.equals(object) &&
+                            this.castleRook.equals(((KingSideCastleMove) object).getCastleRook()));
         }
 
         @Override
@@ -74,6 +100,14 @@ public abstract class CastleMove extends Move {
                                    final int castleRookStart,
                                    final int castleRookDestination) {
             super(board, movedPiece, destinationCoordinate, castleRook, castleRookStart, castleRookDestination);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return this == object ||
+                    (object instanceof QueenSideCastleMove &&
+                            super.equals(object) &&
+                            this.castleRook.equals(((QueenSideCastleMove) object).getCastleRook()));
         }
 
         @Override

@@ -14,8 +14,11 @@ public class Rook extends Piece {
 
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-8, -1, 1, 8};
 
-    public Rook(int position, Alliance alliance) {
-        super(PieceType.ROOK, position, alliance);
+    public Rook(final int position, final Alliance alliance) {
+        super(PieceType.ROOK, position, alliance, true);
+    }
+    public Rook(final int position, final Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.ROOK, position, alliance, isFirstMove);
     }
 
     @Override
@@ -26,7 +29,6 @@ public class Rook extends Piece {
         for (final int candidateCoordinateOffset : CANDIDATE_MOVE_VECTOR_COORDINATES) {
             int candidateDestinationCoordinate = this.position;
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
-
                 if (isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
                         isLastColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
                     break;
@@ -35,8 +37,9 @@ public class Rook extends Piece {
                 candidateDestinationCoordinate += candidateCoordinateOffset;
 
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
-
-                    buildMove(board, legalMoves, candidateDestinationCoordinate);
+                    boolean stop = buildMove(board, legalMoves, candidateDestinationCoordinate);
+                    if (stop)
+                        break;
                 }
             }
 

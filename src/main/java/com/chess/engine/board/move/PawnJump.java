@@ -12,6 +12,16 @@ public final class PawnJump extends Move {
     }
 
     @Override
+    public boolean equals(Object object) {
+        return this == object || (object instanceof PawnJump && super.equals(object));
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.destinationCoordinate);
+    }
+
+    @Override
     public Board execute() {
         final BoardBuilder builder= new BoardBuilder();
         for (final Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
@@ -23,9 +33,10 @@ public final class PawnJump extends Move {
             builder.setPiece(piece);
         }
         final Pawn movedPawn = (Pawn)this.movedPiece.movePiece((this));
-        builder.setPiece(movedPawn);
-        builder.setEnPassantPawn(movedPawn);
-        builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
+        builder.setPiece(movedPawn)
+               .setEnPassantPawn(movedPawn)
+               .setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance())
+               .setTransitionMove(this);
         return builder.build();
     }
 }

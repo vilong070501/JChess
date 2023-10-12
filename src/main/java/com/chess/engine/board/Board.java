@@ -160,6 +160,8 @@ public class Board {
         Alliance nextMoveMaker;
         Pawn enPassantPawn;
 
+        Move transitionMove;
+
         public BoardBuilder() {
             this.boardConfig = new HashMap<>();
         }
@@ -174,12 +176,18 @@ public class Board {
             return this;
         }
 
-        public Board build() {
-            return new Board(this);
+        public BoardBuilder setEnPassantPawn(Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
+            return this;
         }
 
-        public void setEnPassantPawn(Pawn enPassantPawn) {
-            this.enPassantPawn = enPassantPawn;
+        public BoardBuilder setTransitionMove(final Move transitionMove) {
+            this.transitionMove = transitionMove;
+            return this;
+        }
+
+        public Board build() {
+            return new Board(this);
         }
     }
 }

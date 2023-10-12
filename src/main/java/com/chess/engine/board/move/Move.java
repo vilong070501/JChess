@@ -5,17 +5,27 @@ import com.chess.engine.pieces.Piece;
 
 public abstract class Move {
 
-    final Board board;
-    final Piece movedPiece;
-    final int destinationCoordinate;
+    protected final Board board;
+    protected final Piece movedPiece;
+    protected final int destinationCoordinate;
+    protected final boolean isFirstMove;
 
     public static final Move NULL_MOVE = new NullMove();
 
-    protected Move(final Board board, final Piece movedPiece, final int destinationCoordinate) {
+    Move(final Board board, final Piece movedPiece, final int destinationCoordinate) {
         this.board = board;
         this.movedPiece = movedPiece;
         this.destinationCoordinate = destinationCoordinate;
+        this.isFirstMove = movedPiece.isFirstMove();
     }
+
+    Move(final Board board, final int destinationCoordinate) {
+        this.board = board;
+        this.movedPiece = null;
+        this.destinationCoordinate = destinationCoordinate;
+        this.isFirstMove = false;
+    }
+
 
     @Override
     public int hashCode() {
@@ -24,6 +34,7 @@ public abstract class Move {
 
         result = prime * result + this.destinationCoordinate;
         result = prime * result + this.movedPiece.hashCode();
+        result = prime * result + this.movedPiece.getPiecePosition();
         return result;
     }
 
@@ -32,12 +43,12 @@ public abstract class Move {
         if (this == object) {
             return true;
         }
-        if (!(object instanceof Move)) {
+        if (!(object instanceof Move otherMove)) {
             return false;
         }
-        final Move otherMove = (Move)object;
-        return getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
-               getMovedPiece() == otherMove.getMovedPiece();
+        return getCurrentCoordinate() == otherMove.getCurrentCoordinate() &&
+               getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
+               getMovedPiece().equals(otherMove.getMovedPiece());
     }
 
     public Piece getMovedPiece() {
@@ -68,7 +79,6 @@ public abstract class Move {
         final Board.BoardBuilder builder = new Board.BoardBuilder();
 
         for (final Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
-            // TODO: hashcode and equals for pieces
             if (!this.movedPiece.equals(piece)) {
                 builder.setPiece(piece);
             }
@@ -88,6 +98,7 @@ public abstract class Move {
             throw new RuntimeException("Not instantiable!!!");
         }
 
+        /* Return a move if it is legal */
         public static Move createMove(final Board board, final int currentCoordinate, final int destinationCoordinate) {
             for (final Move move : board.getAllLegalMoves()) {
                 if (move.getCurrentCoordinate() == currentCoordinate &&

@@ -12,4 +12,9 @@ public final class PawnAttackMove extends AttackMove {
         super(board, movedPiece, destinationCoordinate, attackedPiece);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        return this == object || (object instanceof PawnAttackMove && super.equals(object));
+    }
+
 }

@@ -14,8 +14,11 @@ public class Bishop extends Piece {
 
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -7, 7, 9};
 
-    public Bishop(int position, Alliance alliance) {
-        super(PieceType.BISHOP, position, alliance);
+    public Bishop(final int position, final Alliance alliance) {
+        super(PieceType.BISHOP, position, alliance, true);
+    }
+    public Bishop(final int position, final Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.BISHOP, position, alliance, isFirstMove);
     }
 
     @Override
@@ -26,7 +29,6 @@ public class Bishop extends Piece {
         for (final int candidateCoordinateOffset : CANDIDATE_MOVE_VECTOR_COORDINATES) {
             int candidateDestinationCoordinate = this.position;
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
-
                 if (isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
                         isLastColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
                     break;
@@ -35,8 +37,9 @@ public class Bishop extends Piece {
                 candidateDestinationCoordinate += candidateCoordinateOffset;
                 
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
-
-                    buildMove(board, legalMoves, candidateDestinationCoordinate);
+                    boolean stop = buildMove(board, legalMoves, candidateDestinationCoordinate);
+                    if (stop)
+                        break;
                 }
             }
 

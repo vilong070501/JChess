@@ -27,10 +27,9 @@ public class AttackMove extends Move
         if (this == object) {
             return true;
         }
-        if (!(object instanceof AttackMove)) {
+        if (!(object instanceof AttackMove otherAttackMove)) {
             return false;
         }
-        final AttackMove otherAttackMove = (AttackMove) object;
         return super.equals(otherAttackMove) && getAttackedPiece().equals(otherAttackMove.getAttackedPiece());
     }
 

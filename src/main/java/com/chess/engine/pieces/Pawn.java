@@ -5,6 +5,8 @@ import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.move.MajorMove;
 import com.chess.engine.board.move.Move;
+import com.chess.engine.board.move.PawnAttackMove;
+import com.chess.engine.board.move.PawnJump;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -15,8 +17,11 @@ public class Pawn extends Piece {
 
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {7, 8, 9, 16};
 
-    public Pawn(int position, Alliance alliance) {
-        super(PieceType.PAWN, position, alliance);
+    public Pawn(final int position, final Alliance alliance) {
+        super(PieceType.PAWN, position, alliance, true);
+    }
+    public Pawn(final int position, final Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.PAWN, position, alliance, isFirstMove);
     }
 
     @Override
@@ -41,7 +46,7 @@ public class Pawn extends Piece {
                 final int behindCandidateDestinationCoordinate = this.position + (this.alliance.getDirection() * 8);
                 if (!board.getTile(behindCandidateDestinationCoordinate).isOccupied() &&
                     !board.getTile(candidateDestinationCoordinate).isOccupied()) {
-                    legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                    legalMoves.add(new PawnJump(board, this, candidateDestinationCoordinate));
                 }
             /* Attacking-move */
             } else if (currentCandidateOffset == 7 &&
@@ -51,6 +56,7 @@ public class Pawn extends Piece {
                     final Piece pieceCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
                     if (this.alliance != pieceCandidate.getAlliance()) {
                         // Add an attack move
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, pieceCandidate));
                     }
                 }
             } else if (currentCandidateOffset == 9 &&
@@ -60,6 +66,7 @@ public class Pawn extends Piece {
                     final Piece pieceCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
                     if (this.alliance != pieceCandidate.getAlliance()) {
                         // Add an attack move
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, pieceCandidate));
                     }
                 }
             }
@@ -70,8 +77,8 @@ public class Pawn extends Piece {
 
     private boolean canJump(int currentCandidateOffset) {
         return currentCandidateOffset == 16 && this.isFirstMove &&
-                (BoardUtils.SECOND_ROW.get(this.position) && this.alliance.isBlack()) ||
-                (BoardUtils.SEVENTH_ROW.get(this.position) && this.alliance.isWhite());
+               ((BoardUtils.SECOND_ROW.get(this.position) && this.alliance.isBlack()) ||
+                (BoardUtils.SEVENTH_ROW.get(this.position) && this.alliance.isWhite()));
     }
 
 

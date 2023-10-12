@@ -1,8 +1,8 @@
 package com.chess.engine.board;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class BoardUtils {
 
@@ -25,6 +25,9 @@ public class BoardUtils {
 
     public static final int NUMBER_OF_TILES = 64;
     public static final int NUMBER_OF_TILES_PER_ROW = 8;
+    public static final String[] ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
+    public static final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionCoordinateMap();
+
 
     private BoardUtils(){
         throw new RuntimeException("You cannot instantiate BoardUnits !");
@@ -52,5 +55,21 @@ public class BoardUtils {
 
     public static boolean isValidTileCoordinate(int candidateDestinationCoordinate) {
         return candidateDestinationCoordinate >= 0 && candidateDestinationCoordinate < NUMBER_OF_TILES;
+    }
+
+    public static int getCoordinateAtPosition(final String position) {
+        return POSITION_TO_COORDINATE.get(position);
+    }
+
+    public static String getPositionAtCoordinate(final int coordinate) {
+        return ALGEBRAIC_NOTATION[coordinate];
+    }
+
+    //TODO: Implement these two methods
+    private static String[] initializeAlgebraicNotation() {
+        return new String[0];
+    }
+    private static Map<String, Integer> initializePositionCoordinateMap() {
+        return null;
     }
 }

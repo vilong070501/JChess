@@ -14,8 +14,11 @@ public class Queen extends Piece {
 
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
 
-    public Queen(int position, Alliance alliance) {
-        super(PieceType.QUEEN, position, alliance);
+    public Queen(final int position, final Alliance alliance) {
+        super(PieceType.QUEEN, position, alliance, true);
+    }
+    public Queen(final int position, final Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.QUEEN, position, alliance, isFirstMove);
     }
 
     @Override
@@ -26,7 +29,6 @@ public class Queen extends Piece {
         for (final int candidateCoordinateOffset : CANDIDATE_MOVE_VECTOR_COORDINATES) {
             int candidateDestinationCoordinate = this.position;
             while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
-
                 if (isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
                     isLastColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
                     break;
@@ -35,8 +37,9 @@ public class Queen extends Piece {
                 candidateDestinationCoordinate += candidateCoordinateOffset;
 
                 if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
-
-                    buildMove(board, legalMoves, candidateDestinationCoordinate);
+                    boolean stop = buildMove(board, legalMoves, candidateDestinationCoordinate);
+                    if (stop)
+                        break;
                 }
             }
 
