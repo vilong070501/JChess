@@ -1,6 +1,7 @@
 package com.chess.engine.board.move;
 
 import com.chess.engine.board.Board;
+import com.chess.engine.board.BoardUtils;
 import com.chess.engine.pieces.Piece;
 
 public final class PawnMove extends Move {
@@ -17,6 +18,6 @@ public final class PawnMove extends Move {
 
     @Override
     public String toString() {
-        return String.valueOf(this.destinationCoordinate);
+        return BoardUtils.getPositionAtCoordinate(this.destinationCoordinate);
     }
 }

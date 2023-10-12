@@ -13,11 +13,6 @@ public class AttackMove extends Move
     }
 
     @Override
-    public Board execute() {
-        return null;
-    }
-
-    @Override
     public int hashCode() {
         return this.attackPiece.hashCode() + super.hashCode();
     }

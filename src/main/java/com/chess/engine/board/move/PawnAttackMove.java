@@ -1,9 +1,10 @@
 package com.chess.engine.board.move;
 
 import com.chess.engine.board.Board;
+import com.chess.engine.board.BoardUtils;
 import com.chess.engine.pieces.Piece;
 
-public final class PawnAttackMove extends AttackMove {
+public class PawnAttackMove extends AttackMove {
 
     public PawnAttackMove(final Board board,
                           final Piece movedPiece,
@@ -17,4 +18,9 @@ public final class PawnAttackMove extends AttackMove {
         return this == object || (object instanceof PawnAttackMove && super.equals(object));
     }
 
+    @Override
+    public String toString() {
+        return BoardUtils.getPositionAtCoordinate(this.movedPiece.getPiecePosition()).charAt(0) + "x" +
+               BoardUtils.getPositionAtCoordinate(this.destinationCoordinate);
+    }
 }

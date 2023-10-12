@@ -87,8 +87,8 @@ public abstract class Move {
             builder.setPiece(piece);
         }
         // Move the moved piece
-        builder.setPiece(this.movedPiece.movePiece(this));
-        builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
+        builder.setPiece(this.movedPiece.movePiece(this))
+               .setMoveMaker(this.board.getCurrentPlayer().getOpponent().getAlliance());
 
         return builder.build();
     }

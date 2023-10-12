@@ -37,9 +37,13 @@ public class Table {
 
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
-    private Board chessBoard;
-    private BoardDirection boardDirection;
+    private final TakenPiecesPanel takenPiecesPanel;
+    private final GameHistoryPanel gameHistoryPanel;
     private boolean highlightLegalMoves;
+    private BoardDirection boardDirection;
+    private final MoveLog moveLog;
+
+    private Board chessBoard;
 
     private Tile sourceTile;
     private Tile destinationTile;
@@ -53,9 +57,14 @@ public class Table {
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
         this.chessBoard = Board.createStandardBoard();
         this.boardPanel = new BoardPanel();
+        this.takenPiecesPanel = new TakenPiecesPanel();
+        this.gameHistoryPanel = new GameHistoryPanel();
         this.boardDirection = BoardDirection.NORMAL;
         this.highlightLegalMoves = false;
+        this.moveLog = new MoveLog();
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
+        this.gameFrame.add(this.takenPiecesPanel, BorderLayout.WEST);
+        this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.gameFrame.setVisible(true);
     }
 
@@ -194,7 +203,7 @@ public class Table {
                             final MoveTransition transition = chessBoard.getCurrentPlayer().makeMove(move);
                             if (transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getTransitionBoard();
-                                // TODO: Add the move that was made to the move log
+                                moveLog.addMove(move);
                             }
                             clearState();
                         }
@@ -202,6 +211,8 @@ public class Table {
                             @Override
                             public void run() {
                                 boardPanel.drawBoard(chessBoard);
+                                takenPiecesPanel.redo(moveLog);
+                                gameHistoryPanel.redo(chessBoard, moveLog);
                             }
                         });
                     }
